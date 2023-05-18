@@ -190,7 +190,6 @@ class _NewGradientAppBarState extends State<NewGradientAppBar> {
                 centerTitle: effectiveCenterTitle,
                 titleSpacing: widget.titleSpacing,
                 toolbarOpacity: widget.toolbarOpacity,
-                bottomOpacity: widget.bottomOpacity,
                 titleTextStyle: appBarTextStyle,
                 systemOverlayStyle: overlayStyle,
               ),
