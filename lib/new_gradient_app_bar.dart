@@ -53,7 +53,8 @@ class NewGradientAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
   })  : assert(elevation == null || elevation >= 0.0),
-        preferredSize = Size.fromHeight(kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)),
+        preferredSize = Size.fromHeight(
+            kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)),
         super(key: key);
 
   final Widget? leading;
@@ -77,8 +78,8 @@ class NewGradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
 
-  bool? _getEffectiveCenterTitle(ThemeData themeData) {
-    if (centerTitle != null) return centerTitle;
+  bool _getEffectiveCenterTitle(ThemeData themeData) {
+    if (centerTitle != null) return centerTitle!;
     assert(true);
     switch (themeData.platform) {
       case TargetPlatform.android:
@@ -116,9 +117,11 @@ class _NewGradientAppBarState extends State<NewGradientAppBar> {
     assert(debugCheckHasMaterialLocalizations(context));
     final ThemeData themeData = Theme.of(context);
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
-    final bool hasDrawer = widget.automaticallyImplyLeading && parentRoute?.canPop == true;
+    final bool hasDrawer =
+        widget.automaticallyImplyLeading && parentRoute?.canPop == true;
     final bool useCloseButton = !widget.primary;
-    final bool effectiveCenterTitle = widget._getEffectiveCenterTitle(themeData);
+    final bool effectiveCenterTitle =
+        widget._getEffectiveCenterTitle(themeData);
 
     IconThemeData appBarIconTheme =
         widget.iconTheme ?? themeData.primaryIconTheme;
@@ -144,8 +147,7 @@ class _NewGradientAppBarState extends State<NewGradientAppBar> {
     }
 
     final SystemUiOverlayStyle overlayStyle =
-        themeData.appBarTheme.systemOverlayStyle ??
-            SystemUiOverlayStyle.light;
+        themeData.appBarTheme.systemOverlayStyle ?? SystemUiOverlayStyle.light;
     final bool backwardsCompatibility = false;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
