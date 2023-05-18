@@ -169,7 +169,6 @@ class _NewGradientAppBarState extends State<NewGradientAppBar> {
               end: effectiveCenterTitle ? 0.0 : null,
               child: AppBar(
                 backgroundColor: Colors.transparent,
-                toolbarOpacity: widget.toolbarOpacity,
                 bottomOpacity: widget.bottomOpacity,
                 elevation: widget.elevation ?? _defaultElevation,
                 shape: widget.shape,
