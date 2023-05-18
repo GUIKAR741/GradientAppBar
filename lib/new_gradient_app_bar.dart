@@ -1,129 +1,53 @@
-library new_gradient_app_bar;
-
-import 'dart:math' as math;
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
-const double _kLeadingWidth = kToolbarHeight;
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final Widget? title;
+  final List<Widget>? actions;
+  final Widget? leading;
+  final Widget? flexibleSpace;
+  final Widget? bottom;
+  final double? elevation;
+  final Color? backgroundColor;
+  final Brightness? brightness;
+  final double toolbarOpacity;
+  final double bottomOpacity;
+  final double titleSpacing;
+  final ShapeBorder? shape;
+  final IconThemeData? iconTheme;
+  final IconThemeData? actionsIconTheme;
 
-class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
-  const _ToolbarContainerLayout();
-
-  @override
-  BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
-    return constraints.tighten(height: kToolbarHeight);
-  }
-
-  @override
-  Size getSize(BoxConstraints constraints) {
-    return Size(constraints.maxWidth, kToolbarHeight);
-  }
-
-  @override
-  Offset getPositionForChild(Size size, Size childSize) {
-    return Offset(0.0, size.height - childSize.height);
-  }
-
-  @override
-  bool shouldRelayout(_ToolbarContainerLayout oldDelegate) => false;
-}
-
-class NewGradientAppBar extends StatefulWidget implements PreferredSizeWidget {
-  NewGradientAppBar({
+  CustomAppBar({
     Key? key,
-    this.leading,
-    this.automaticallyImplyLeading = true,
     this.title,
     this.actions,
+    this.leading,
     this.flexibleSpace,
     this.bottom,
     this.elevation,
-    this.shape,
-    this.gradient,
+    this.backgroundColor,
     this.brightness,
-    this.iconTheme,
-    this.actionsIconTheme,
-    this.primary = true,
-    this.centerTitle,
-    this.titleSpacing = NavigationToolbar.kMiddleSpacing,
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
-  })  : assert(elevation == null || elevation >= 0.0),
-        preferredSize = Size.fromHeight(kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)),
-        super(key: key);
-
-  final Widget? leading;
-  final bool automaticallyImplyLeading;
-  final Widget? title;
-  final List<Widget>? actions;
-  final Widget? flexibleSpace;
-  final PreferredSizeWidget? bottom;
-  final double? elevation;
-  final ShapeBorder? shape;
-  final Gradient? gradient;
-  final Brightness? brightness;
-  final IconThemeData? iconTheme;
-  final IconThemeData? actionsIconTheme;
-  final bool primary;
-  final bool? centerTitle;
-  final double titleSpacing;
-  final double toolbarOpacity;
-  final double bottomOpacity;
+    this.titleSpacing = NavigationToolbar.kMiddleSpacing,
+    this.shape,
+    this.iconTheme,
+    this.actionsIconTheme,
+  }) : super(key: key);
 
   @override
-  final Size preferredSize;
-
-  bool? _getEffectiveCenterTitle(ThemeData themeData) {
-    if (centerTitle != null) return centerTitle;
-    assert(true);
-    switch (themeData.platform) {
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-        return false;
-      case TargetPlatform.iOS:
-        return actions == null || actions!.length < 2;
-      case TargetPlatform.linux:
-        return false;
-      case TargetPlatform.macOS:
-        return false;
-      case TargetPlatform.windows:
-        return false;
-    }
-  }
-
-  @override
-  _NewGradientAppBarState createState() => _NewGradientAppBarState();
-}
-
-class _NewGradientAppBarState extends State<NewGradientAppBar> {
-  static const double _defaultElevation = 4.0;
-
-  void _handleDrawerButton() {
-    Scaffold.of(context).openDrawer();
-  }
-
-  void _handleDrawerButtonEnd() {
-    Scaffold.of(context).openEndDrawer();
-  }
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
-    assert(!widget.primary || debugCheckHasMediaQuery(context));
-    assert(debugCheckHasMaterialLocalizations(context));
     final ThemeData themeData = Theme.of(context);
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final bool hasDrawer = widget.automaticallyImplyLeading && parentRoute?.canPop == true;
     final bool useCloseButton = !widget.primary;
     final bool effectiveCenterTitle = widget._getEffectiveCenterTitle(themeData);
 
-    IconThemeData appBarIconTheme =
-        widget.iconTheme ?? themeData.primaryIconTheme;
-    IconThemeData actionsIconTheme =
-        widget.actionsIconTheme ?? themeData.primaryIconTheme;
+    IconThemeData appBarIconTheme = widget.iconTheme ?? themeData.primaryIconTheme;
+    IconThemeData actionsIconTheme = widget.actionsIconTheme ?? themeData.primaryIconTheme;
     TextStyle? appBarTextStyle = themeData.primaryTextTheme.headline6;
     TextStyle? actionsTextStyle = themeData.primaryTextTheme.subtitle1;
 
@@ -143,26 +67,16 @@ class _NewGradientAppBarState extends State<NewGradientAppBar> {
       );
     }
 
-    final SystemUiOverlayStyle overlayStyle =
-        themeData.appBarTheme.systemOverlayStyle ??
-            SystemUiOverlayStyle.light;
-    final bool backwardsCompatibility = themeData.appBarTheme
-            .backwardsCompatibility ??=
-        false;
+    final SystemUiOverlayStyle overlayStyle = themeData.appBarTheme.systemOverlayStyle ?? SystemUiOverlayStyle.light;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: backwardsCompatibility
-          ? overlayStyle.copyWith(
-              statusBarBrightness: widget.brightness,
-            )
-          : overlayStyle,
+      value: overlayStyle.copyWith(statusBarBrightness: widget.brightness),
       child: Semantics(
         container: true,
         explicitChildNodes: true,
         child: Stack(
           children: <Widget>[
-            if (widget.flexibleSpace != null)
-              Positioned.fill(child: widget.flexibleSpace!),
+            if (widget.flexibleSpace != null) Positioned.fill(child: widget.flexibleSpace!),
             PositionedDirectional(
               top: 0.0,
               start: effectiveCenterTitle ? 0.0 : null,
@@ -173,37 +87,28 @@ class _NewGradientAppBarState extends State<NewGradientAppBar> {
                 bottomOpacity: widget.bottomOpacity,
                 elevation: widget.elevation ?? _defaultElevation,
                 shape: widget.shape,
-                leading: widget.leading ??
-                    (hasDrawer ? null : (useCloseButton ? null : Container())),
+                leading: widget.leading ?? (hasDrawer ? null : (useCloseButton ? null : Container())),
                 title: widget.title != null
                     ? DefaultTextStyle(
                         style: appBarTextStyle!,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         child: Semantics(
-                          namesRoute: true,
                           child: widget.title!,
-                          header: true,
+                          namesRoute: true,
+                          container: true,
                         ),
                       )
                     : null,
-                actions: widget.actions != null
-                    ? _buildActions(actionsTextStyle!, actionsIconTheme)
-                    : null,
+                actions: _buildActions(context, appBarIconTheme, actionsIconTheme, actionsTextStyle),
+                bottom: widget.bottom,
+                brightness: widget.brightness,
+                iconTheme: appBarIconTheme,
                 centerTitle: effectiveCenterTitle,
                 titleSpacing: widget.titleSpacing,
-                toolbarOpacity: widget.toolbarOpacity,
-                bottomOpacity: widget.bottomOpacity,
-                backwardsCompatibility: backwardsCompatibility,
-                titleTextStyle: appBarTextStyle,
-                systemOverlayStyle: overlayStyle,
+                excludeHeaderSemantics: true,
               ),
             ),
-            if (widget.bottom != null)
-              Positioned(
-                left: 0.0,
-                right: 0.0,
-                bottom: 0.0,
-                child: widget.bottom!,
-              ),
           ],
         ),
       ),
@@ -211,12 +116,16 @@ class _NewGradientAppBarState extends State<NewGradientAppBar> {
   }
 
   List<Widget> _buildActions(
-      TextStyle actionsTextStyle, IconThemeData actionsIconTheme) {
+    BuildContext context,
+    IconThemeData appBarIconTheme,
+    IconThemeData actionsIconTheme,
+    TextStyle actionsTextStyle,
+  ) {
+    if (widget.actions == null) return const <Widget>[];
+
     final List<Widget> actionButtons = <Widget>[];
     for (final Widget action in widget.actions!) {
-      if (action is IconButton) {
-        actionButtons.add(action);
-      } else {
+      if (action != null) {
         actionButtons.add(Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: IconTheme.merge(
