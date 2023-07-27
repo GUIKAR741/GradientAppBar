@@ -15,7 +15,7 @@ environment:
 
 dependencies:
   flutter_gradient_app_bar:
-    path: ../../FlutterGradientAppBar
+    path: ../
 
   flutter:
     sdk: flutter

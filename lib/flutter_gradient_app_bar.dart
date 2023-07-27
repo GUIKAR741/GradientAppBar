@@ -615,7 +615,7 @@ class _FloatingGradientAppBarState extends State<_FloatingGradientAppBar> {
     super.didChangeDependencies();
     if (_position != null)
       _position!.isScrollingNotifier.removeListener(_isScrollingListener);
-    _position = Scrollable.of(context).position;
+    _position = Scrollable.of(context)?.position;
     if (_position != null)
       _position!.isScrollingNotifier.addListener(_isScrollingListener);
   }
