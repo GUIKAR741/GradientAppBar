@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:ui' show SemanticsFlag;
+// import 'dart:ui' show SemanticsFlag;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/physics.dart';
@@ -689,7 +689,7 @@ class _HasSemantics extends Matcher {
     Description result = mismatchDescription
         .add('${matchState[TestSemantics]}\n')
         .add('Current SemanticsNode tree:\n')
-        .add(_indent((RendererBinding.instance?.renderView.debugSemantics
+        .add(_indent((RendererBinding.instance.renderView.debugSemantics
             ?.toStringDeep(childOrder: childOrder))!))
         .add('\n')
         .add(

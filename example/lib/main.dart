@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+import 'package:flutter_gradient_app_bar/flutter_gradient_app_bar.dart';
 
 void main() => runApp(MyApp());
 
@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: GradientAppBar(
           title: Text(widget.title),
           gradient: LinearGradient(colors: [Colors.red, Colors.purple]),
           bottom: TabBar(tabs: <Widget>[
@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Text(
                 '$_counter',
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ],
           ),
