@@ -1489,7 +1489,7 @@ void main() {
       ),
     ));
 
-    expect(darkTheme.primaryColorBrightness, Brightness.dark);
+    expect(darkTheme.brightness, Brightness.dark);
     expect(
         SystemChrome.latestStyle,
         const SystemUiOverlayStyle(
@@ -1509,7 +1509,7 @@ void main() {
       ),
     ));
 
-    expect(lightTheme.primaryColorBrightness, Brightness.light);
+    expect(lightTheme.brightness, Brightness.light);
     expect(
         SystemChrome.latestStyle,
         const SystemUiOverlayStyle(
