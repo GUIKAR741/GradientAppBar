@@ -1,6 +1,6 @@
 name: new_gradient_app_bar
 description: The official AppBar, with a more colorful twist. Add gradients to spice up your application and make it beautiful.
-version: 0.2.0
+version: 0.3.0
 homepage: https://github.com/GUIKAR741/NewGradientAppBar
 
 dependencies:
